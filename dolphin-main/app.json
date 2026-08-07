@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "dolphin",
+    "slug": "dolphin",
+    "scheme": "dolphin",
+    "version": "1.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0C2340"
+    },
+    "ios": {
+      "backgroundColor": "#0C2340",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chadwick.dolphin",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "entitlements": {
+        "aps-environment": "production"
+      },
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSCameraUsageDescription": "This app needs camera access to take photos of lost or found items.",
+        "NSPhotoLibraryUsageDescription": "This app needs photo library access to upload photos of lost or found items."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.chadwick.dolphin",
+      "googleServicesFile": "./google-services.json"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.596104147964-cn5ns9dq8v7hglfsvghof39rh0buq60j"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "sounds": []
+        }
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-web-browser",
+      "expo-font",
+      "expo-mail-composer"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5fd2bbef-db4b-4a84-b778-2a057dad9bcf"
+      }
+    }
+  }
+}

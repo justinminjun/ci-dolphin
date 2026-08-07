@@ -1,0 +1,170 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper functions ───
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    // ─── Users ───
+    match /users/{userId} {
+      allow read: if isAuth();
+      allow create: if isOwner(userId);
+      allow update: if isAuth();
+      allow delete: if false;
+
+      // Saved items subcollections
+      match /{subcollection}/{docId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // ─── Lounge Posts ───
+    match /lounge_posts/{postId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+
+      // Comments & Likes subcollections
+      match /{subcollection}/{docId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow delete: if isAuth();
+      }
+    }
+
+    // ─── Market Listings ───
+    match /market_listings/{listingId} {
+      allow read: if isAuth();
+      // Anyone authenticated can create
+      allow create: if isAuth();
+      // Anyone authenticated can update (buyers update waitlist, seller updates status)
+      allow update: if isAuth();
+      // Only seller can delete
+      allow delete: if isAuth();
+    }
+
+    // ─── Dolphin Chats ───
+    match /dolphin_chats/{chatId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+
+      // Messages subcollection
+      match /messages/{messageId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow update: if isAuth();
+        allow delete: if false;
+      }
+    }
+
+    // ─── Notifications ───
+    match /dolphin_notifications/{notifId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+    }
+
+    // ─── Announcements ───
+    match /dolphin_announcements/{annId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+    }
+
+    // ─── Config ───
+    match /config/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── App Config (legacy admin list) ───
+    match /app_config/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── App Banners ───
+    match /app_banners/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── Feedback ───
+    match /dolphin_feedback/{docId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+    }
+
+    // ─── Lost & Found Posts (legacy collection) ───
+    match /posts/{postId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+
+      match /{subcollection}/{docId} {
+        allow read: if isAuth();
+        allow write: if isAuth();
+      }
+    }
+
+    // ─── Lost & Found Chats (legacy) ───
+    match /chats/{chatId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow delete: if false;
+      }
+    }
+
+    // ─── Reports ───
+    match /reports/{docId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+    }
+
+    // ─── Tech Support ───
+    match /tech_announcements/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    match /tech_chat_logs/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    match /tech_knowledge/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── Rate Limits (server-only) ───
+    match /rate_limits/{docId} {
+      allow read, write: if false;
+    }
+
+    // ─── Default: deny unauthenticated access ───
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
