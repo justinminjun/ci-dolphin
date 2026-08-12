@@ -1,0 +1,527 @@
+{
+  "2026-06-08": {
+    "dayOfWeek": "Monday",
+    "msus": {
+      "korean": {
+        "items": [
+          "Beef Bulgogi",
+          "Steamed Rice",
+          "Kimchi Jjigae",
+          "Japchae",
+          "Kimchi",
+          "Spinach Salad",
+          "Fried Egg",
+          "Pickled Radish"
+        ]
+      },
+      "international": {
+        "items": [
+          "Tomato Basil Soup",
+          "Grilled Chicken Breast",
+          "Garlic Bread",
+          "Caesar Salad",
+          "Mashed Potato",
+          "Steamed Corn"
+        ]
+      },
+      "pasta": {
+        "items": [
+          "Minestrone Soup",
+          "Carbonara Pasta",
+          "Garlic Shrimp Pasta",
+          "Breadsticks",
+          "Garden Salad"
+        ]
+      },
+      "vegetarian": {
+        "items": [
+          "Vegetable Curry",
+          "Steamed Jasmine Rice",
+          "Roasted Cauliflower",
+          "Cucumber Raita",
+          "Fresh Fruit",
+          "Mixed Green Salad"
+        ]
+      },
+      "protein": {
+        "items": [
+          "Grilled Salmon Fillet",
+          "Steamed Broccoli",
+          "Brown Rice",
+          "Boiled Egg",
+          "Avocado Slices",
+          "Protein Smoothie"
+        ]
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Beef Bulgogi",
+          "Steamed Rice",
+          "Egg Drop Soup",
+          "Japchae",
+          "Kimchi",
+          "Cucumber Salad",
+          "Mandarin Orange"
+        ]
+      },
+      "international": {
+        "items": [
+          "Tomato Soup",
+          "Chicken Tenders",
+          "French Fries",
+          "Corn on the Cob",
+          "Apple Slices",
+          "Milk/Juice"
+        ]
+      },
+      "inTheBox": {
+        "items": [
+          "Mini Kimbap",
+          "Chicken Nuggets",
+          "Rice Ball",
+          "Cherry Tomatoes",
+          "Fruit Cup"
+        ]
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Beef Bulgogi (diced)",
+          "Steamed Rice",
+          "Mild Egg Soup",
+          "Cucumber Sticks",
+          "Kimchi (mild)",
+          "Banana",
+          "Apple Slices",
+          "Milk/Juice"
+        ]
+      }
+    }
+  },
+  "2026-06-09": {
+    "dayOfWeek": "Tuesday",
+    "msus": {
+      "korean": {
+        "items": [
+          "Seaweed Soup",
+          "Stir-fried Pork",
+          "Grab Tteokbokki/Sundae",
+          "Fried Rice/Sausage Veggie Stir-fry",
+          "Kimchi",
+          "Fried Egg",
+          "Cucumber Salad",
+          "Bean Sprout",
+          "Seasoned Chicken",
+          "Spicy Tteokbokki Sauce"
+        ]
+      },
+      "international": {
+        "items": [
+          "Cream Pasta Soup",
+          "American Meatloaf",
+          "Black Sesame Rice",
+          "Bacon Fried Rice",
+          "Mushroom Caprese",
+          "Kale & Lentil Salad",
+          "Green Bean"
+        ]
+      },
+      "pasta": {
+        "items": [
+          "Basil Cream Tomato Soup",
+          "Bacon Cream Pasta",
+          "Braised Pork in Chili Pepper Pasta",
+          "Shrimp & Veggie Stir-fry",
+          "French Fries"
+        ]
+      },
+      "vegetarian": {
+        "items": [
+          "Cream Mushroom Soup",
+          "Grilled Tofu/Paprika",
+          "Lemon Turmeric Rice",
+          "Broccoli",
+          "Caesar Romaine Salad",
+          "Veggie Sticks",
+          "Fruit Dressing"
+        ]
+      },
+      "protein": {
+        "items": [
+          "Seasoned Chicken Breast",
+          "Egg Roll",
+          "Sweet Potato",
+          "Cucumber Salad",
+          "Brown Rice",
+          "Scrambled Bacon Egg",
+          "Broccoli & Tofu"
+        ]
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Seaweed Soup",
+          "Pork Cutlet",
+          "Fried Egg",
+          "Braised Tofu",
+          "Bean Sprout Pancake",
+          "Sesame Sauce",
+          "Kimchi",
+          "Seasonal Fruit",
+          "Kimchi Fried Rice",
+          "Sausage Stir-fry",
+          "Mayo Salad"
+        ]
+      },
+      "international": {
+        "items": [
+          "Chicken Noodle Soup",
+          "Clear Onion Broth",
+          "Cheese Chicken Pasta",
+          "White Magic Rice",
+          "Garden Salad",
+          "Mushroom Caprese",
+          "Spinach Stew"
+        ]
+      },
+      "inTheBox": {
+        "items": [
+          "Gimbap",
+          "Tteokbokki",
+          "Croquette",
+          "Corn Cheese",
+          "Inari Sushi",
+          "Fruit"
+        ]
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Seaweed Soup",
+          "Pork Cutlet",
+          "Fried Egg",
+          "Spinach Salad",
+          "Kimchi",
+          "Brown Rice",
+          "Strawberry",
+          "Blueberry",
+          "Banana Smoothie",
+          "Yogurt & Granola",
+          "Fruit",
+          "Milk/Juice"
+        ]
+      }
+    }
+  },
+  "2026-06-10": {
+    "dayOfWeek": "Wednesday",
+    "msus": {
+      "korean": {
+        "items": [
+          "Doenjang Jjigae",
+          "Grilled Mackerel",
+          "Steamed Rice",
+          "Stir-fried Zucchini",
+          "Kimchi",
+          "Seasoned Spinach",
+          "Fried Tofu",
+          "Pickled Cucumber"
+        ]
+      },
+      "international": {
+        "items": [
+          "Clam Chowder",
+          "Fish & Chips",
+          "Coleslaw",
+          "Tartar Sauce",
+          "Roasted Vegetables",
+          "Lemon Wedge"
+        ]
+      },
+      "pasta": {
+        "items": [
+          "Italian Wedding Soup",
+          "Pesto Penne Pasta",
+          "Grilled Chicken Alfredo",
+          "Garlic Toast",
+          "Arugula Salad"
+        ]
+      },
+      "vegetarian": {
+        "items": [
+          "Lentil Soup",
+          "Falafel Wrap",
+          "Hummus & Pita",
+          "Tabbouleh",
+          "Roasted Chickpeas",
+          "Tahini Dressing"
+        ]
+      },
+      "protein": {
+        "items": [
+          "Grilled Chicken Thigh",
+          "Quinoa Bowl",
+          "Steamed Asparagus",
+          "Hard Boiled Egg",
+          "Almond Butter Toast",
+          "Greek Yogurt"
+        ]
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Mild Doenjang Soup",
+          "Teriyaki Chicken",
+          "Steamed Rice",
+          "Seasoned Bean Sprout",
+          "Kimchi (mild)",
+          "Orange Slices",
+          "Fish Cake"
+        ]
+      },
+      "international": {
+        "items": [
+          "Cream of Broccoli Soup",
+          "Mini Burgers",
+          "Sweet Potato Fries",
+          "Carrot Sticks",
+          "Fruit Punch",
+          "Cookie"
+        ]
+      },
+      "inTheBox": {
+        "items": [
+          "Sandwich (Ham & Cheese)",
+          "Mini Salad",
+          "Juice Box",
+          "Crackers",
+          "Fruit"
+        ]
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Mild Doenjang Soup",
+          "Teriyaki Chicken (diced)",
+          "Steamed Rice",
+          "Carrot Sticks",
+          "Kimchi (mild)",
+          "Apple Slices",
+          "Banana",
+          "Milk/Juice"
+        ]
+      }
+    }
+  },
+  "2026-06-11": {
+    "dayOfWeek": "Thursday",
+    "msus": {
+      "korean": {
+        "items": [
+          "Kimchi Jjigae",
+          "Chicken Karaage",
+          "Steamed Rice",
+          "Stir-fried Eggplant",
+          "Kimchi",
+          "Seasoned Seaweed",
+          "Radish Salad",
+          "Miso Soup"
+        ]
+      },
+      "international": {
+        "items": [
+          "French Onion Soup",
+          "BBQ Pulled Pork Sandwich",
+          "Onion Rings",
+          "Mac & Cheese",
+          "Corn Salad",
+          "Pickles"
+        ]
+      },
+      "pasta": {
+        "items": [
+          "Tomato Bisque",
+          "Spaghetti Bolognese",
+          "Meatball Sub",
+          "Parmesan Breadsticks",
+          "Mixed Greens"
+        ]
+      },
+      "vegetarian": {
+        "items": [
+          "Butternut Squash Soup",
+          "Mushroom Risotto",
+          "Grilled Zucchini",
+          "Caprese Salad",
+          "Fruit Tart",
+          "Sparkling Water"
+        ]
+      },
+      "protein": {
+        "items": [
+          "Teriyaki Beef Bowl",
+          "Steamed Edamame",
+          "Brown Rice",
+          "Grilled Vegetables",
+          "Protein Bar",
+          "Mixed Nuts"
+        ]
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Mild Kimchi Soup",
+          "Chicken Karaage",
+          "Steamed Rice",
+          "Corn Salad",
+          "Kimchi (mild)",
+          "Grape Tomatoes",
+          "Yogurt"
+        ]
+      },
+      "international": {
+        "items": [
+          "Chicken Corn Soup",
+          "Mini Pizza",
+          "Tater Tots",
+          "Baby Carrots",
+          "Apple Sauce",
+          "Milk/Juice"
+        ]
+      },
+      "inTheBox": {
+        "items": [
+          "Rice Ball (Salmon)",
+          "Edamame",
+          "Mandu (Dumplings)",
+          "Tangerine",
+          "Fruit Jelly"
+        ]
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Mild Chicken Soup",
+          "Chicken Karaage (bite-size)",
+          "Steamed Rice",
+          "Corn Kernels",
+          "Cucumber Sticks",
+          "Strawberry",
+          "Grape Tomatoes",
+          "Milk/Juice"
+        ]
+      }
+    }
+  },
+  "2026-06-12": {
+    "dayOfWeek": "Friday",
+    "msus": {
+      "korean": {
+        "items": [
+          "Egg Drop Soup",
+          "Bibimbap (Mixed Rice Bowl)",
+          "Gochujang Sauce",
+          "Crispy Mandu",
+          "Kimchi",
+          "Bean Sprout Salad",
+          "Seasoned Tofu",
+          "Fruit"
+        ]
+      },
+      "international": {
+        "items": [
+          "Mushroom Cream Soup",
+          "Beef Tacos",
+          "Guacamole & Salsa",
+          "Mexican Rice",
+          "Nachos & Cheese",
+          "Churros"
+        ]
+      },
+      "pasta": {
+        "items": [
+          "Lobster Bisque",
+          "Seafood Marinara Pasta",
+          "Shrimp Scampi Linguine",
+          "Cheesy Garlic Bread",
+          "Caesar Salad"
+        ]
+      },
+      "vegetarian": {
+        "items": [
+          "Tomato Gazpacho",
+          "Veggie Burrito Bowl",
+          "Black Bean & Corn Salsa",
+          "Avocado Toast",
+          "Fruit Smoothie",
+          "Tortilla Chips"
+        ]
+      },
+      "protein": {
+        "items": [
+          "Grilled Steak Tips",
+          "Sweet Potato Mash",
+          "Steamed Green Beans",
+          "Cottage Cheese",
+          "Brown Rice",
+          "Fruit & Nut Mix"
+        ]
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Egg Soup",
+          "Kid Bibimbap",
+          "Mild Sauce",
+          "Mini Mandu",
+          "Kimchi (mild)",
+          "Banana",
+          "Yogurt Drink"
+        ]
+      },
+      "international": {
+        "items": [
+          "Tomato Soup",
+          "Cheese Quesadilla",
+          "Corn & Bean Salad",
+          "Fruit Cup",
+          "Chocolate Milk",
+          "Animal Crackers"
+        ]
+      },
+      "inTheBox": {
+        "items": [
+          "Tuna Rice Ball",
+          "Mini Corn Dog",
+          "Cheese Sticks",
+          "Grapes",
+          "Juice Box"
+        ]
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Egg Soup",
+          "Mini Bibimbap",
+          "Mild Sauce",
+          "Soft Mandu",
+          "Cucumber Sticks",
+          "Banana",
+          "Watermelon",
+          "Milk/Juice"
+        ]
+      }
+    }
+  }
+}

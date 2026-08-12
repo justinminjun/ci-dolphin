@@ -1,0 +1,90 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // ── Helper ──
+    // Mirrors firestore.rules: a verified @chadwickschool.org identity, not just
+    // "signed in". The Email/Password provider (enabled for the Play review demo
+    // account) allows public self-signup on the web API key, so a bare
+    // request.auth != null check would expose community uploads to anyone.
+    function isAuth() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*@chadwickschool[.]org');
+    }
+
+    function isImageType() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnder5MB() {
+      return request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // ── Lounge post photos ──
+    // Path: lounge/{userId}/filename.jpg
+    match /lounge/{userId}/{allPaths=**} {
+      allow read: if isAuth();
+      // Only the owner can upload, must be image, max 5MB
+      allow write: if isAuth()
+        && request.auth.uid == userId
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Market listing photos ──
+    // Path: market/{userId}/filename.jpg
+    match /market/{userId}/{allPaths=**} {
+      allow read: if isAuth();
+      allow write: if isAuth()
+        && request.auth.uid == userId
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Chat images ──
+    // Path: chat_images/{chatId}/filename.jpg
+    match /chat_images/{chatId}/{allPaths=**} {
+      allow read: if isAuth();
+      // Any authenticated user can upload chat images (participants checked at Firestore level)
+      allow write: if isAuth()
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Lost & Found post photos ──
+    // Path: posts/{filename}.jpg (used by AddPostScreen)
+    match /posts/{allPaths=**} {
+      allow read: if isAuth();
+      allow write: if isAuth()
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Lost & Found photos (legacy path) ──
+    // Path: lostfound/{userId}/filename.jpg
+    match /lostfound/{userId}/{allPaths=**} {
+      allow read: if isAuth();
+      allow write: if isAuth()
+        && request.auth.uid == userId
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Local Guide recommendation photos ──
+    // Path: local_guide/{userId}/filename.jpg
+    match /local_guide/{userId}/{allPaths=**} {
+      allow read: if isAuth();
+      allow write: if isAuth()
+        && request.auth.uid == userId
+        && isImageType()
+        && isUnder5MB();
+    }
+
+    // ── Default: deny everything else ──
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

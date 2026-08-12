@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "chadwicklostfound-justinminjun"
+  },
+  "targets": {
+    "chadwicklostfound-justinminjun": {
+      "hosting": {
+        "dolphin-web": [
+          "chadwickinternational-dolphin"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

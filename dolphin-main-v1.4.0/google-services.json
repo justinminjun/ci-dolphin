@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "596104147964",
+    "firebase_url": "https://lost-and-found-20c10-default-rtdb.firebaseio.com",
+    "project_id": "lost-and-found-20c10",
+    "storage_bucket": "lost-and-found-20c10.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596104147964:android:fb090d92246dab0ce9f879",
+        "android_client_info": {
+          "package_name": "com.chadwick.dolphin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596104147964-v1v7qafrd8udjb5ouv39mm6renna2fu6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chadwick.dolphin",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "596104147964-pv03qh1l47fhrjlrf99alv6628n4gi6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdg8XZXMpTp1kMvur0mg95WgSFwCxS-ro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596104147964-pv03qh1l47fhrjlrf99alv6628n4gi6n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "596104147964-cn5ns9dq8v7hglfsvghof39rh0buq60j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.chadwicklostfound"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

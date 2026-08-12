@@ -1,0 +1,655 @@
+{
+  "2026-08-03": {
+    "dayOfWeek": "Monday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Braised Chicken w/ Soy sauce",
+          "Rice",
+          "Grilled Mackerel",
+          "Seasoned dumplings",
+          "Cucumber and onion salad w/ mustard sauce",
+          "Kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Tofu steak&Sauce",
+          "Bean sprouts soup",
+          "Eggplant gangjeong",
+          "Seasoned Veggie dumplings",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Lemon&Apple water"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Braised Chicken w/ Soy sauce",
+          "Rice",
+          "Grilled Mackerel",
+          "Seasoned dumplings",
+          "Cucumber and onion salad w/ mustard sauce",
+          "Kimchi",
+          "Vegetarian: Tofu steak&Sauce",
+          "Vegetarian: Bean sprouts soup",
+          "Vegetarian: Eggplant gangjeong",
+          "Vegetarian: Seasoned Veggie dumplings",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Lemon&Apple water"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Braised Chicken w/ Soy sauce",
+          "Rice",
+          "Grilled Mackerel",
+          "Seasoned dumplings",
+          "Cucumber and onion salad w/ mustard sauce",
+          "Kimchi",
+          "Vegetarian: Tofu steak&Sauce",
+          "Vegetarian: Bean sprouts soup",
+          "Vegetarian: Eggplant gangjeong",
+          "Vegetarian: Seasoned Veggie dumplings",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Lemon&Apple water"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-04": {
+    "dayOfWeek": "Tuesday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Gilled Pork w/ Vegetables and Salt",
+          "Rice",
+          "Soybean paste Stew",
+          "Steamed egg",
+          "Jjolmyeon",
+          "Wrap vegetables/Ssamjang",
+          "kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Soy meat stir-fry w/ vegetables",
+          "Pickled rettuce stem",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Korean cinamon punch"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Gilled Pork w/ Vegetables and Salt",
+          "Rice",
+          "Soybean paste Stew",
+          "Steamed egg",
+          "Jjolmyeon",
+          "Wrap vegetables/Ssamjang",
+          "kimchi",
+          "Vegetarian: Soy meat stir-fry w/ vegetables",
+          "Vegetarian: Pickled rettuce stem",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Korean cinamon punch"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Gilled Pork w/ Vegetables and Salt",
+          "Rice",
+          "Soybean paste Stew",
+          "Steamed egg",
+          "Jjolmyeon",
+          "Wrap vegetables/Ssamjang",
+          "kimchi",
+          "Vegetarian: Soy meat stir-fry w/ vegetables",
+          "Vegetarian: Pickled rettuce stem",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Korean cinamon punch"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-05": {
+    "dayOfWeek": "Wednesday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Pot Beef Bulgogi",
+          "Rice",
+          "Spicy squid stir-fry",
+          "Grilled tofu",
+          "Grilled Seaweed",
+          "Seasoned mung bean sprouts",
+          "Kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Stir-fry mushroom w/ soy meat sauce",
+          "Egg&Scallion soup",
+          "Braised potato",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Barley tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Pot Beef Bulgogi",
+          "Rice",
+          "Spicy squid stir-fry",
+          "Grilled tofu",
+          "Grilled Seaweed",
+          "Seasoned mung bean sprouts",
+          "Kimchi",
+          "Vegetarian: Stir-fry mushroom w/ soy meat sauce",
+          "Vegetarian: Egg&Scallion soup",
+          "Vegetarian: Braised potato",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Barley tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Pot Beef Bulgogi",
+          "Rice",
+          "Spicy squid stir-fry",
+          "Grilled tofu",
+          "Grilled Seaweed",
+          "Seasoned mung bean sprouts",
+          "Kimchi",
+          "Vegetarian: Stir-fry mushroom w/ soy meat sauce",
+          "Vegetarian: Egg&Scallion soup",
+          "Vegetarian: Braised potato",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Barley tea"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-06": {
+    "dayOfWeek": "Thursday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation",
+    "msus": {
+      "korean": {
+        "items": [
+          "Lunch at Orakai",
+          "Arranged by the orientation committee"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": null,
+    "pkk": null
+  },
+  "2026-08-07": {
+    "dayOfWeek": "Friday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Janchi noodles",
+          "Rice",
+          "Boiled beef/Mustard sauce",
+          "Grilled tteokgalbi w/ seasoning sauce",
+          "Seasoned chives&Onion",
+          "kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Veggie Janchi noodles",
+          "Grilled veggie tteokgalbi",
+          "Veggie gangjeong",
+          "Seasoned chili leaves",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Plum Juice"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Janchi noodles",
+          "Rice",
+          "Boiled beef/Mustard sauce",
+          "Grilled tteokgalbi w/ seasoning sauce",
+          "Seasoned chives&Onion",
+          "kimchi",
+          "Vegetarian: Veggie Janchi noodles",
+          "Vegetarian: Grilled veggie tteokgalbi",
+          "Vegetarian: Veggie gangjeong",
+          "Vegetarian: Seasoned chili leaves",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Plum Juice"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Janchi noodles",
+          "Rice",
+          "Boiled beef/Mustard sauce",
+          "Grilled tteokgalbi w/ seasoning sauce",
+          "Seasoned chives&Onion",
+          "kimchi",
+          "Vegetarian: Veggie Janchi noodles",
+          "Vegetarian: Grilled veggie tteokgalbi",
+          "Vegetarian: Veggie gangjeong",
+          "Vegetarian: Seasoned chili leaves",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Plum Juice"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-10": {
+    "dayOfWeek": "Monday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Grilled Pork Rib with Sauce",
+          "Rice",
+          "Chilli Pepper Paste Stew with Zucchini",
+          "Korean five-color skewers",
+          "Royal style tteokboki",
+          "Seasoend bean sprouts and shredded scalion",
+          "Young radish kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Soft Tofu Stew with Bean Curd",
+          "Oyster king mushroom pancake",
+          "Braised quail eggs",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Pomegranate Juice"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Grilled Pork Rib with Sauce",
+          "Rice",
+          "Chilli Pepper Paste Stew with Zucchini",
+          "Korean five-color skewers",
+          "Royal style tteokboki",
+          "Seasoend bean sprouts and shredded scalion",
+          "Young radish kimchi",
+          "Vegetarian: Soft Tofu Stew with Bean Curd",
+          "Vegetarian: Oyster king mushroom pancake",
+          "Vegetarian: Braised quail eggs",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Pomegranate Juice"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Grilled Pork Rib with Sauce",
+          "Rice",
+          "Chilli Pepper Paste Stew with Zucchini",
+          "Korean five-color skewers",
+          "Royal style tteokboki",
+          "Seasoend bean sprouts and shredded scalion",
+          "Young radish kimchi",
+          "Vegetarian: Soft Tofu Stew with Bean Curd",
+          "Vegetarian: Oyster king mushroom pancake",
+          "Vegetarian: Braised quail eggs",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Pomegranate Juice"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-11": {
+    "dayOfWeek": "Tuesday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Pork Sirloin Cutlet / Fried Shrimp",
+          "Rice",
+          "Mushroom Soup",
+          "Bolognese Pasta",
+          "Balsamic Glazed Vegetables",
+          "Corn Cheese Gratin",
+          "Cucumber Pickle",
+          "Kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Tofu Cutlet",
+          "Soy Cutlet/Sauce",
+          "Veggie Ragu pasta",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Apple",
+          "Salad Bar: Pepper Mint Tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Pork Sirloin Cutlet / Fried Shrimp",
+          "Rice",
+          "Mushroom Soup",
+          "Bolognese Pasta",
+          "Balsamic Glazed Vegetables",
+          "Corn Cheese Gratin",
+          "Cucumber Pickle",
+          "Kimchi",
+          "Vegetarian: Tofu Cutlet",
+          "Vegetarian: Soy Cutlet/Sauce",
+          "Vegetarian: Veggie Ragu pasta",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Apple",
+          "Salad Bar: Pepper Mint Tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Pork Sirloin Cutlet / Fried Shrimp",
+          "Rice",
+          "Mushroom Soup",
+          "Bolognese Pasta",
+          "Balsamic Glazed Vegetables",
+          "Corn Cheese Gratin",
+          "Cucumber Pickle",
+          "Kimchi",
+          "Vegetarian: Tofu Cutlet",
+          "Vegetarian: Soy Cutlet/Sauce",
+          "Vegetarian: Veggie Ragu pasta",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Apple",
+          "Salad Bar: Pepper Mint Tea"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-12": {
+    "dayOfWeek": "Wednesday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Beef brisket soup",
+          "Rice",
+          "Spicy chicken stir-fry",
+          "Sweet and sour pork",
+          "Seasoned Chamnamul w/ Mung bean jelly",
+          "Kimchi"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Mushroom and radish soup",
+          "Mapa tofu",
+          "Shiitake gangjeong",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Earl grey tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Beef brisket soup",
+          "Rice",
+          "Spicy chicken stir-fry",
+          "Sweet and sour pork",
+          "Seasoned Chamnamul w/ Mung bean jelly",
+          "Kimchi",
+          "Vegetarian: Mushroom and radish soup",
+          "Vegetarian: Mapa tofu",
+          "Vegetarian: Shiitake gangjeong",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Earl grey tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Beef brisket soup",
+          "Rice",
+          "Spicy chicken stir-fry",
+          "Sweet and sour pork",
+          "Seasoned Chamnamul w/ Mung bean jelly",
+          "Kimchi",
+          "Vegetarian: Mushroom and radish soup",
+          "Vegetarian: Mapa tofu",
+          "Vegetarian: Shiitake gangjeong",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Earl grey tea"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-13": {
+    "dayOfWeek": "Thursday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Spicy webfoot octopus and pork stir-fry",
+          "Rice",
+          "Mini rice cake soup",
+          "Steamed smoked duck and sweet pumpkin",
+          "Two-colored vegetables",
+          "Radish salad"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Stir-fried Soy Bulgogi with Chili Pepper Paste",
+          "Veggie rice cake soup",
+          "Soft Tofu",
+          "Fried Egg",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Chamomile tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Spicy webfoot octopus and pork stir-fry",
+          "Rice",
+          "Mini rice cake soup",
+          "Steamed smoked duck and sweet pumpkin",
+          "Two-colored vegetables",
+          "Radish salad",
+          "Vegetarian: Stir-fried Soy Bulgogi with Chili Pepper Paste",
+          "Vegetarian: Veggie rice cake soup",
+          "Vegetarian: Soft Tofu",
+          "Vegetarian: Fried Egg",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Chamomile tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Spicy webfoot octopus and pork stir-fry",
+          "Rice",
+          "Mini rice cake soup",
+          "Steamed smoked duck and sweet pumpkin",
+          "Two-colored vegetables",
+          "Radish salad",
+          "Vegetarian: Stir-fried Soy Bulgogi with Chili Pepper Paste",
+          "Vegetarian: Veggie rice cake soup",
+          "Vegetarian: Soft Tofu",
+          "Vegetarian: Fried Egg",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Chamomile tea"
+        ],
+        "itemsKo": []
+      }
+    }
+  },
+  "2026-08-14": {
+    "dayOfWeek": "Friday",
+    "holiday": false,
+    "manual": true,
+    "manualNote": "New Faculty Orientation catering (temporary — replaces the Drive photo sync)",
+    "msus": {
+      "korean": {
+        "items": [
+          "Whole chicken leg porridge",
+          "Rice",
+          "Braised Tofu w/ Pork sauce",
+          "Buchwheat pancake",
+          "Vegetable stick/Ssamjang Aged kimchi stir-fry w/ peilla oil"
+        ],
+        "itemsKo": []
+      },
+      "vegetarian": {
+        "items": [
+          "Mushroom porridge",
+          "Braised tofu",
+          "Grilled Veggie dumplings",
+          "Grilled Soy meat",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Green tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "vs": {
+      "korean": {
+        "items": [
+          "Whole chicken leg porridge",
+          "Rice",
+          "Braised Tofu w/ Pork sauce",
+          "Buchwheat pancake",
+          "Vegetable stick/Ssamjang Aged kimchi stir-fry w/ peilla oil",
+          "Vegetarian: Mushroom porridge",
+          "Vegetarian: Braised tofu",
+          "Vegetarian: Grilled Veggie dumplings",
+          "Vegetarian: Grilled Soy meat",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Green tea"
+        ],
+        "itemsKo": []
+      }
+    },
+    "pkk": {
+      "lunch": {
+        "items": [
+          "Whole chicken leg porridge",
+          "Rice",
+          "Braised Tofu w/ Pork sauce",
+          "Buchwheat pancake",
+          "Vegetable stick/Ssamjang Aged kimchi stir-fry w/ peilla oil",
+          "Vegetarian: Mushroom porridge",
+          "Vegetarian: Braised tofu",
+          "Vegetarian: Grilled Veggie dumplings",
+          "Vegetarian: Grilled Soy meat",
+          "Salad Bar: Vegetable Salad",
+          "Salad Bar: Fruits",
+          "Salad Bar: Green tea"
+        ],
+        "itemsKo": []
+      }
+    }
+  }
+}

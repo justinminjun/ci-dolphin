@@ -1,0 +1,68 @@
+{
+  "cli": {
+    "version": ">= 18.7.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview"
+    },
+    "production": {
+      "autoIncrement": true,
+      "channel": "production",
+      "env": {
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyDVg9Bxu9WWM4xe-yNVHCNxL-RaxGOJWog",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "lost-and-found-20c10.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "lost-and-found-20c10",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "lost-and-found-20c10.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "596104147964",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:596104147964:web:a5354700b1f5117ee9f879",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "596104147964-pv03qh1l47fhrjlrf99alv6628n4gi6n.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GEMINI_API_KEY": "AIzaSyAtsNj37PJ2Z6Nec7rFPczRDXIQHkF3VwQ",
+        "EXPO_PUBLIC_GOOGLE_MAPS_KEY": "AIzaSyAZ_rgZ36eUlfppXajOITzxLAmLmfllkMQ"
+      }
+    },
+    "apk": {
+      "channel": "production",
+      "autoIncrement": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_FIREBASE_API_KEY": "AIzaSyDVg9Bxu9WWM4xe-yNVHCNxL-RaxGOJWog",
+        "EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN": "lost-and-found-20c10.firebaseapp.com",
+        "EXPO_PUBLIC_FIREBASE_PROJECT_ID": "lost-and-found-20c10",
+        "EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET": "lost-and-found-20c10.firebasestorage.app",
+        "EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID": "596104147964",
+        "EXPO_PUBLIC_FIREBASE_APP_ID": "1:596104147964:web:a5354700b1f5117ee9f879",
+        "EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID": "596104147964-pv03qh1l47fhrjlrf99alv6628n4gi6n.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GEMINI_API_KEY": "AIzaSyAtsNj37PJ2Z6Nec7rFPczRDXIQHkF3VwQ",
+        "EXPO_PUBLIC_GOOGLE_MAPS_KEY": "AIzaSyAZ_rgZ36eUlfppXajOITzxLAmLmfllkMQ"
+      }
+    },
+    "simulator": {
+      "ios": {
+        "simulator": true
+      }
+    },
+    "dev-simulator": {
+      "developmentClient": true,
+      "ios": {
+        "simulator": true
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "6763223607"
+      }
+    }
+  }
+}

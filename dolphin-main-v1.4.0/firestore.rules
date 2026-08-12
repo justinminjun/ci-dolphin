@@ -1,0 +1,198 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper functions ───
+    // Being signed in is NOT enough: the account must be a verified
+    // @chadwickschool.org identity.
+    //
+    // Why: the project's Email/Password provider is enabled so Google Play
+    // reviewers can sign in with a demo account. That provider also exposes
+    // public self-signup on the (publicly extractable) web API key, so
+    // "request.auth != null" alone would let anyone mint an account and read
+    // the whole community database. Requiring a verified school email closes
+    // that: password self-signups start unverified and cannot verify a mailbox
+    // they don't own, while Google sign-in always yields email_verified=true.
+    // (Audited 2026-08-06: all 223 existing accounts are email-verified.)
+    function isAuth() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.lower().matches('.*@chadwickschool[.]org');
+    }
+
+    function isOwner(uid) {
+      return isAuth() && request.auth.uid == uid;
+    }
+
+    // ─── Users ───
+    match /users/{userId} {
+      allow read: if isAuth();
+      allow create: if isOwner(userId);
+      allow update: if isAuth();
+      allow delete: if false;
+
+      // Saved items subcollections
+      match /{subcollection}/{docId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // ─── Lounge Posts ───
+    match /lounge_posts/{postId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+
+      // Comments & Likes subcollections
+      match /{subcollection}/{docId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow delete: if isAuth();
+      }
+    }
+
+    // ─── Market Listings ───
+    match /market_listings/{listingId} {
+      allow read: if isAuth();
+      // Anyone authenticated can create
+      allow create: if isAuth();
+      // Anyone authenticated can update (buyers update waitlist, seller updates status)
+      allow update: if isAuth();
+      // Only seller can delete
+      allow delete: if isAuth();
+    }
+
+    // ─── Dolphin Chats ───
+    match /dolphin_chats/{chatId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+
+      // Messages subcollection
+      match /messages/{messageId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow update: if isAuth();
+        allow delete: if false;
+      }
+    }
+
+    // ─── Notifications ───
+    match /dolphin_notifications/{notifId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+    }
+
+    // ─── Announcements ───
+    match /dolphin_announcements/{annId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+    }
+
+    // ─── Config ───
+    match /config/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── App Config (legacy admin list) ───
+    match /app_config/{docId} {
+      allow read: if isAuth();
+      allow write: if isAuth();
+    }
+
+    // ─── School Calendar (from Veracross sync) ───
+    match /school_calendar/{eventId} {
+      allow read: if isAuth();
+      allow write: if false; // Only Cloud Functions can write
+    }
+
+    // ─── Lunch Menus ───
+    // Public read-only: consumed by CI Tech Hub desktop widget (no Firebase auth)
+    // as well as the Dolphin app. Menu data is not sensitive; writes stay blocked
+    // (only the menuSync Cloud Function writes via Admin SDK).
+    match /lunch_menus/{menuId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // ─── Feedback ───
+    match /dolphin_feedback/{docId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+    }
+
+    // ─── Lost & Found Posts (legacy collection) ───
+    match /posts/{postId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if isAuth();
+
+      match /{subcollection}/{docId} {
+        allow read: if isAuth();
+        allow write: if isAuth();
+      }
+    }
+
+    // ─── Lost & Found Chats (legacy) ───
+    match /chats/{chatId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update: if isAuth();
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow delete: if false;
+      }
+    }
+
+    // ─── Reports ───
+    match /reports/{docId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+    }
+
+    // ─── Rate Limits (server-only) ───
+    match /rate_limits/{docId} {
+      allow read, write: if false;
+    }
+
+    // ─── Local Guide Recommendations ───
+    match /local_recommendations/{recId} {
+      allow read: if isAuth();
+      allow create: if isAuth();
+      // Owner may edit any field; non-owners may only bump the likes/commentCount
+      // counters (cross-user writes from toggleLike and comment add/delete).
+      allow update: if isAuth() && (
+        resource.data.authorId == request.auth.uid ||
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'commentCount'])
+      );
+      allow delete: if isAuth();
+
+      // Likes & Comments subcollections
+      match /{subcollection}/{docId} {
+        allow read: if isAuth();
+        allow create: if isAuth();
+        allow update: if isAuth();
+        allow delete: if isAuth();
+      }
+    }
+
+    // ─── Default: deny unauthenticated access ───
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
