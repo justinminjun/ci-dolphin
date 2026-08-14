@@ -1,111 +1,131 @@
-# Dolphin App 🐬
+# Dolphin 🐬
 
-Dolphin is a modern, high-fidelity mobile application designed for campus communities. Built using React Native with Expo, it provides students and campus members with a centralized hub for social interaction, second-hand marketplace transactions, lost-and-found tracking, and community onboarding.
+Dolphin is Chadwick International's campus community app — social feed, second-hand
+marketplace, lost & found, direct messages, and a Local Guide of Songdo built from
+student/faculty recommendations. It ships to the App Store as **CI Dolphin** and, from
+the same codebase, as a website (`chadwickinternational-dolphin.web.app`).
 
----
-
-## Key Features
-
-### 1. Community & Feed 📣
-- **Post & Share**: Share updates, thoughts, and campus news with images and descriptions.
-- **Engage**: Like and comment on posts.
-- **Bookmarks**: Save posts or market listings to read or view later, all managed in a centralized "Saved Items" profile section.
-- **Hyperlinks**: Auto-detects URLs (like Google Docs, websites, etc.) and highlights them as clickable links that open in the native browser.
-
-### 2. Used Market (Second-hand Trade) 🛒
-- **List Items**: Sell used textbooks, electronics, or campus gear with images, description, pricing, and item status.
-- **Interactive Listings**: View details, contact sellers directly, and save listings to your favorites.
-
-### 3. Lost & Found 🔍
-- **Report & Track**: Report lost or found items on campus with category, location details, and pictures.
-- **Filtering**: Search and filter items to quickly match lost belongings with found notices.
-
-### 4. Direct Messaging & Lounge 💬
-- **Real-time Chats**: Connect with other students or campus members regarding posts, market items, or lost items.
-
-### 5. Onboarding & Guides 🗺️
-- **First-time Tour**: Interactive onboarding flows introducing students to different sections of the app (Market, Community, Lounge, Lost & Found) complete with illustrative guides and instructions.
-
-### 6. User-Generated Content (UGC) Moderation & Safety 🛡️
-To ensure a safe environment and comply with App Store policies (Guideline 1.2 & 5.1.1):
-- **EULA Agreement**: Zero-tolerance policy checkbox agreement required upon signup/login.
-- **Reporting & Flagging**: Easy reporting system for inappropriate posts, listings, or profiles.
-- **User Blocking**: Block abusive users to instantly filter out their content from all feeds.
-- **Account Deletion**: Clean and secure account deletion mechanism that deletes user profile data from Firestore and removes the authentication account.
+**Active codebase:** [`dolphin-main-v1.4.0/`](./dolphin-main-v1.4.0). Everything below
+refers to that folder. `dolphin-main/` is the pre-v1.4.0 snapshot, kept only for
+reference — don't build on it.
 
 ---
 
-## Tech Stack
+## One codebase, two targets
 
-- **Framework**: [Expo](https://expo.dev/) (React Native)
-- **Language**: TypeScript
-- **Database & Auth**: [Firebase](https://firebase.google.com/) (Auth, Firestore, Cloud Storage)
-- **Navigation**: React Navigation (Native Stack & Bottom Tabs)
-- **UI & Animation**: React Native Reanimated, Linear Gradient, SVG
+This is a single Expo (React Native + `react-native-web`) project. The mobile app and
+the website are not separate projects that happen to look similar — they're the same
+`src/` screens and the same Firebase backend, compiled two ways:
+
+- **Mobile**: `npx expo start` → iOS/Android via Expo Go, EAS Build for App Store/TestFlight
+- **Web**: `npx expo start --web` locally, `npx expo export --platform web` + Firebase
+  Hosting for production
+
+Screens branch on `Platform.OS === 'web'` and `useIsWebDesktop()` (see
+`src/utils/useResponsive.ts`) where mobile and desktop-web need different layouts —
+grep for those two before assuming a screen is mobile-only.
 
 ---
 
-## Project Structure
+## Tech stack
 
-```text
-dolphin/
-├── admin-panel/         # Web or companion dashboard files
-├── assets/              # App logos, splash screens, onboarding images
-├── docs/                # Project documentation and guides
-├── functions/           # Firebase Cloud Functions (if any)
-├── src/
-│   ├── components/      # Reusable UI components (e.g., HyperlinkText, Cards)
-│   ├── config/          # Firebase, Google Auth, and environment setup
-│   ├── context/         # React Context providers (Auth, Theme, etc.)
-│   ├── lostandfound/    # Domain-specific components for Lost & Found
-│   ├── navigation/      # Bottom Tab and Stack Navigators
-│   ├── screens/         # Main screens (Community, Market, LostFound, Profile, Settings)
-│   ├── theme/           # Color palettes, dark/light theme definitions
-│   ├── types/           # TypeScript definitions
-│   └── utils/           # Helper functions and moderation hooks
-├── App.tsx              # Application entry point
-├── app.json             # Expo project configuration
-├── eas.json             # Expo Application Services configuration
-└── package.json         # Dependency manifest
+| | |
+|---|---|
+| Framework | Expo (React Native + react-native-web), TypeScript |
+| Backend | Firebase — Auth, Firestore, Storage, Cloud Functions |
+| Maps | `react-native-maps` (native) / `@teovilla/react-native-web-maps` (web, aliased via `metro.config.js`) |
+| School calendar | Veracross API, synced hourly by a Cloud Function into Firestore |
+| Navigation | React Navigation (Bottom Tabs + Native Stack; sidebar nav on desktop web) |
+
+---
+
+## Firebase — two projects, not one (read this before touching hosting or billing)
+
+This is the single most important thing to understand before managing this project:
+
+- **`lost-and-found-20c10`** — the real backend. Firestore, Auth, Storage, Cloud
+  Functions. Same project the mobile app uses. This is what "the database" means
+  everywhere in this repo, and it's managed by the school's tech department.
+- **`chadwicklostfound-justinminjun`** — hosts *only* the static website
+  (`chadwickinternational-dolphin.web.app`, Firebase Hosting). It does not hold any
+  app data. This project was created separately during early web-port development and,
+  going by its name, is likely tied to a personal account rather than the school's.
+
+The web app's `.env` correctly points at `lost-and-found-20c10` for all data — so the
+site already reads/writes the real, shared database. The only thing split off is
+*hosting*. **Recommended cleanup**: add a Hosting site inside `lost-and-found-20c10`
+itself and redeploy there, so the whole project — app data and website — lives under
+one Firebase project the school owns. That removes a second billing surface and a
+second thing to hand off.
+
+---
+
+## Running locally
+
+```bash
+cd dolphin-main-v1.4.0
+npm install
+cp .env.example .env       # fill in Firebase + Google Maps keys
+npx expo start --web       # website
+npx expo start             # mobile (Expo Go / simulator)
 ```
 
----
+## Deploying the website
 
-## Getting Started
+```bash
+npx tsc --noEmit                              # always check types first
+npx expo export --platform web
+npx firebase-tools deploy --only hosting:dolphin-web
+```
 
-### Prerequisites
-- Node.js (v18 or higher recommended)
-- npm or yarn
-- Expo Go app on your physical device, or an iOS Simulator / Android Emulator
+## Deploying the app
 
-### Installation
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/songdo-technology/dolphin-app.git
-   cd dolphin-app
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   npm install
-   ```
-
-3. **Configure Environment Variables**:
-   Copy the example environment file and fill in your Firebase project configurations:
-   ```bash
-   cp .env.example .env
-   ```
-   Open the `.env` file and replace the placeholder values with your Firebase API keys and Google Sign-In Client IDs.
-
-4. **Run the application**:
-   ```bash
-   npx expo start
-   ```
-   Scan the QR code with your phone (using Expo Go or Camera app) or press `i` for iOS Simulator or `a` for Android Emulator.
+See `docs/PROJECT_HANDOFF.md` for the full EAS build/submit flow, known local-build
+pitfalls (CocoaPods/Ruby, simulator prebuild), and OTA update usage.
 
 ---
 
-## License
+## External dependencies that need Google Cloud / school-side access
 
-This project is private and proprietary. All rights reserved.
+These aren't code bugs — they're switches that need flipping in a console this repo's
+maintainer may not have access to yet:
+
+1. **Maps JavaScript API** — the website's Local Guide map needs this enabled on the
+   Google Cloud project behind `EXPO_PUBLIC_GOOGLE_MAPS_KEY` (the mobile app only
+   needed the Maps *SDK*, a separate enablement). Enable at
+   console.cloud.google.com → APIs & Services → Library → "Maps JavaScript API".
+2. **Firebase Auth authorized domains** — Google Sign-In on the web needs the hosting
+   domain added under Firebase Console → Authentication → Settings → Authorized
+   domains, or users can only use the "continue without signing in" test path.
+3. **Veracross OAuth secret rotation** — `VERACROSS_CLIENT_ID`/`_SECRET` are currently
+   committed in plaintext in `functions/src/calendarSync.ts` and
+   `functions/scripts/seed_calendar.mjs`. Rotate and move to Cloud Secret Manager
+   before wider handoff (see `docs/PROJECT_HANDOFF.md` for the mechanism already used
+   elsewhere in this codebase).
+
+---
+
+## Ownership handoff (school takeover)
+
+Since the app and website share one backend, transferring ownership is really about
+transferring access to `lost-and-found-20c10` (already the school's, per their tech
+department) and consolidating the pieces that currently live outside it:
+
+- [ ] Add school IT as Owner on the `lost-and-found-20c10` Firebase/Google Cloud project
+      (if not already), and confirm the website's Hosting site is migrated there per
+      the section above — removing the separate `chadwicklostfound-justinminjun` project
+- [ ] Transfer or add the school as admin on this GitHub repo (already private)
+- [ ] Transfer the Expo/EAS account, or move builds to a school-owned EAS org — the
+      personal account's free build tier is close to its limit
+- [ ] Confirm Apple Developer Program / Google Play Console access includes the school
+- [ ] Rotate the Veracross secret (above) before adding new maintainers
+- [ ] Point new maintainers at `docs/PROJECT_HANDOFF.md` for the detailed session-by-
+      session history of what's been built, fixed, and is still pending
+
+---
+
+## Docs
+
+`docs/PROJECT_HANDOFF.md` is the living engineering log — architecture detail, known
+issues, and a full change history. This README is the front door; that file is the
+deep end.
