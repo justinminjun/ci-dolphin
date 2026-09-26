@@ -9,6 +9,11 @@ the same codebase, as a website (`chadwickinternational-dolphin.web.app`).
 refers to that folder. `dolphin-main/` is the pre-v1.4.0 snapshot, kept only for
 reference — don't build on it.
 
+**Lost & Found handoff:** [`lost-and-found-handoff/`](./lost-and-found-handoff) contains
+only the updated Lost & Found files, with install steps, data-model changes and open
+action items in its README. The same changes are already applied in
+`dolphin-main-v1.4.0/`.
+
 ---
 
 ## One codebase, two targets
