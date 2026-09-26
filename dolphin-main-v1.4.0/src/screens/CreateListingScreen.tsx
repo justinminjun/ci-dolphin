@@ -13,6 +13,7 @@ import { collection, addDoc, serverTimestamp, doc, updateDoc } from 'firebase/fi
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import { analyzeMarketItemImages, MARKET_CATEGORIES } from '../utils/gemini';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 interface ItemData {
     name: string;
@@ -26,6 +27,7 @@ interface ItemData {
 const emptyItem = (): ItemData => ({ name: '', price: '', currency: 'USD', description: '', category: '', photos: [] });
 
 export function CreateListingScreen({ route, navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const mode = route.params?.mode || 'single';
     const listingType: 'selling' | 'buying' = route.params?.listingType || route.params?.editListing?.listingType || 'selling';
     const isBuying = listingType === 'buying';
@@ -242,7 +244,7 @@ export function CreateListingScreen({ route, navigation }: any) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={90}>
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeBtn}>
                     <Ionicons name="close" size={26} color={theme.colors.textPrimary} />
                 </TouchableOpacity>

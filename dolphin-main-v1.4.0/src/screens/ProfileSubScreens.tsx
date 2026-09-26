@@ -12,6 +12,7 @@ import { sendPushToUser } from '../utils/notifications';
 import { LOCAL_CATEGORIES } from '../components/LocalGuideCards';
 import { getBlockedUsers, unblockUser } from '../utils/moderation';
 import Constants from 'expo-constants';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 function timeAgo(timestamp: any): string {
     if (!timestamp) return '';
@@ -23,6 +24,7 @@ function timeAgo(timestamp: any): string {
 }
 
 export function MyPostsScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [posts, setPosts] = useState<any[]>([]);
     const [recs, setRecs] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<'lounge' | 'local'>('lounge');
@@ -75,7 +77,7 @@ export function MyPostsScreen({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>My Posts</Text>
                 <View style={{ width: 24 }} />
@@ -204,6 +206,7 @@ export function MyPostsScreen({ navigation }: any) {
 }
 
 export function MyListingsScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [listings, setListings] = useState<any[]>([]);
     const [activeTab, setActiveTab] = useState<'active' | 'sold' | 'reserved'>('active');
     const [soldPopup, setSoldPopup] = useState<any>(null);
@@ -259,7 +262,7 @@ export function MyListingsScreen({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>My Listings</Text>
                 <View style={{ width: 24 }} />
@@ -482,6 +485,7 @@ export function MyListingsScreen({ navigation }: any) {
 }
 
 export function SavedScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [saved, setSaved] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const uid = auth.currentUser?.uid;
@@ -508,7 +512,7 @@ export function SavedScreen({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>Saved Items</Text>
                 <View style={{ width: 24 }} />
@@ -566,6 +570,7 @@ export function SavedScreen({ navigation }: any) {
 }
 
 export function MarketSavedScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [savedListings, setSavedListings] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const uid = auth.currentUser?.uid;
@@ -601,7 +606,7 @@ export function MarketSavedScreen({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>Saved Items</Text>
                 <View style={{ width: 24 }} />
@@ -642,6 +647,7 @@ export function MarketSavedScreen({ navigation }: any) {
 
 
 export function SettingsScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const user = auth.currentUser;
     const [notifAll, setNotifAll] = useState(true);
     const [notifLounge, setNotifLounge] = useState(true);
@@ -776,7 +782,7 @@ export function SettingsScreen({ navigation }: any) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()}><Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} /></TouchableOpacity>
                 <Text style={styles.headerTitle}>Settings</Text>
                 <View style={{ width: 24 }} />

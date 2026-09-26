@@ -13,6 +13,12 @@
 //   - onPoiClick (tap any Google-rendered POI icon) has no web equivalent in
 //     this library — the prop is simply never invoked, so that one feature
 //     silently doesn't fire on web while everything else still works.
+//
+// See patches/@teovilla+react-native-web-maps+*.patch for a real bug fixed
+// in the underlying library: its useJsApiLoader() call can leave `isLoaded`
+// stuck false forever (a race in @googlemaps/js-api-loader) even once
+// window.google.maps is genuinely ready, which otherwise leaves the map
+// permanently blank with no error.
 import React from 'react';
 // @ts-ignore — no type declarations shipped for this package
 import * as WebMaps from '@teovilla/react-native-web-maps';

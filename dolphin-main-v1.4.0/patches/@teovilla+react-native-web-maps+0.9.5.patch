@@ -1,0 +1,123 @@
+diff --git a/node_modules/@teovilla/react-native-web-maps/dist/commonjs/components/map-view.js b/node_modules/@teovilla/react-native-web-maps/dist/commonjs/components/map-view.js
+index c7b8abb..2711a88 100644
+--- a/node_modules/@teovilla/react-native-web-maps/dist/commonjs/components/map-view.js
++++ b/node_modules/@teovilla/react-native-web-maps/dist/commonjs/components/map-view.js
+@@ -30,6 +30,20 @@ function _MapView(props, ref) {
+   } = (0, _api.useJsApiLoader)({
+     googleMapsApiKey: props.googleMapsApiKey || ''
+   });
++  // PATCHED (see patches/@teovilla+react-native-web-maps+*.patch): don't just
++  // hope some unrelated re-render happens to pick up window.google.maps once
++  // it's ready — actively poll for it while useJsApiLoader's isLoaded is stuck.
++  const [reallyLoadedPoll, setReallyLoadedPoll] = (0, _react.useState)(false);
++  (0, _react.useEffect)(() => {
++    if (isLoaded || reallyLoadedPoll) return;
++    const id = setInterval(() => {
++      if (typeof window !== 'undefined' && window.google && window.google.maps && window.google.maps.Map) {
++        setReallyLoadedPoll(true);
++        clearInterval(id);
++      }
++    }, 300);
++    return () => clearInterval(id);
++  }, [isLoaded, reallyLoadedPoll]);
+ 
+   // Callbacks
+ 
+@@ -290,7 +304,13 @@ function _MapView(props, ref) {
+     console.warn('[WARNING] `react-native-web-maps` only suppots google for now. Please pass "google" as provider in props');
+     return null;
+   }
+-  return isLoaded ? /*#__PURE__*/_react.default.cloneElement(mapNode) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, props.loadingFallback || null);
++  // PATCHED (see patches/@teovilla+react-native-web-maps+*.patch): useJsApiLoader's
++  // internal Promise chain can hang forever with no error even after
++  // window.google.maps is genuinely ready (a race in @googlemaps/js-api-loader's
++  // setScript()) — fall back to checking the real global directly so the map
++  // isn't stuck blank forever in that case.
++  var reallyLoaded = isLoaded || reallyLoadedPoll;
++  return reallyLoaded ? /*#__PURE__*/_react.default.cloneElement(mapNode) : /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, props.loadingFallback || null);
+ }
+ const MapView = /*#__PURE__*/(0, _react.memo)( /*#__PURE__*/(0, _react.forwardRef)(_MapView));
+ exports.MapView = MapView;
+diff --git a/node_modules/@teovilla/react-native-web-maps/dist/module/components/map-view.js b/node_modules/@teovilla/react-native-web-maps/dist/module/components/map-view.js
+index 8bca5e5..1d50326 100644
+--- a/node_modules/@teovilla/react-native-web-maps/dist/module/components/map-view.js
++++ b/node_modules/@teovilla/react-native-web-maps/dist/module/components/map-view.js
+@@ -22,6 +22,20 @@ function _MapView(props, ref) {
+   } = useJsApiLoader({
+     googleMapsApiKey: props.googleMapsApiKey || ''
+   });
++  // PATCHED (see patches/@teovilla+react-native-web-maps+*.patch): don't just
++  // hope some unrelated re-render happens to pick up window.google.maps once
++  // it's ready — actively poll for it while useJsApiLoader's isLoaded is stuck.
++  const [reallyLoadedPoll, setReallyLoadedPoll] = useState(false);
++  useEffect(() => {
++    if (isLoaded || reallyLoadedPoll) return;
++    const id = setInterval(() => {
++      if (typeof window !== 'undefined' && window.google && window.google.maps && window.google.maps.Map) {
++        setReallyLoadedPoll(true);
++        clearInterval(id);
++      }
++    }, 300);
++    return () => clearInterval(id);
++  }, [isLoaded, reallyLoadedPoll]);
+ 
+   // Callbacks
+ 
+@@ -282,7 +296,13 @@ function _MapView(props, ref) {
+     console.warn('[WARNING] `react-native-web-maps` only suppots google for now. Please pass "google" as provider in props');
+     return null;
+   }
+-  return isLoaded ? /*#__PURE__*/React.cloneElement(mapNode) : /*#__PURE__*/React.createElement(React.Fragment, null, props.loadingFallback || null);
++  // PATCHED (see patches/@teovilla+react-native-web-maps+*.patch): useJsApiLoader's
++  // internal Promise chain can hang forever with no error even after
++  // window.google.maps is genuinely ready (a race in @googlemaps/js-api-loader's
++  // setScript()) — fall back to checking the real global directly so the map
++  // isn't stuck blank forever in that case.
++  var reallyLoaded = isLoaded || reallyLoadedPoll;
++  return reallyLoaded ? /*#__PURE__*/React.cloneElement(mapNode) : /*#__PURE__*/React.createElement(React.Fragment, null, props.loadingFallback || null);
+ }
+ export const MapView = /*#__PURE__*/memo( /*#__PURE__*/forwardRef(_MapView));
+ //# sourceMappingURL=map-view.js.map
+\ No newline at end of file
+diff --git a/node_modules/@teovilla/react-native-web-maps/src/components/map-view.tsx b/node_modules/@teovilla/react-native-web-maps/src/components/map-view.tsx
+index 2a1855b..c544ea4 100644
+--- a/node_modules/@teovilla/react-native-web-maps/src/components/map-view.tsx
++++ b/node_modules/@teovilla/react-native-web-maps/src/components/map-view.tsx
+@@ -47,6 +47,22 @@ function _MapView(props: MapViewProps, ref: ForwardedRef<Partial<RNMapView>>) {
+   const { isLoaded } = useJsApiLoader({
+     googleMapsApiKey: props.googleMapsApiKey || '',
+   });
++  // PATCHED (see patches/@teovilla+react-native-web-maps+*.patch): useJsApiLoader's
++  // internal Promise chain can hang forever with no error even after
++  // window.google.maps is genuinely ready (a race in @googlemaps/js-api-loader's
++  // setScript()) — actively poll for the real global as a fallback instead of
++  // leaving the map permanently blank in that case.
++  const [reallyLoadedPoll, setReallyLoadedPoll] = useState(false);
++  useEffect(() => {
++    if (isLoaded || reallyLoadedPoll) return;
++    const id = setInterval(() => {
++      if (typeof window !== 'undefined' && (window as any).google?.maps?.Map) {
++        setReallyLoadedPoll(true);
++        clearInterval(id);
++      }
++    }, 300);
++    return () => clearInterval(id);
++  }, [isLoaded, reallyLoadedPoll]);
+ 
+   // Callbacks
+ 
+@@ -372,11 +388,12 @@ function _MapView(props: MapViewProps, ref: ForwardedRef<Partial<RNMapView>>) {
+     return null;
+   }
+ 
+-  return isLoaded ? (
++  const reallyLoaded = isLoaded || reallyLoadedPoll;
++  return reallyLoaded ? (
+     React.cloneElement(mapNode)
+   ) : (
+     <>{props.loadingFallback || null}</>
+   );
+ }
+ 
+-export const MapView = memo(forwardRef(_MapView));
++export const MapView = forwardRef(_MapView);

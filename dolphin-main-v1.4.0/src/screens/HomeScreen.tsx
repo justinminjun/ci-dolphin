@@ -21,6 +21,9 @@ import { AppIntro } from '../components/AppIntro';
 import { getNotificationPermissionStatus } from '../utils/notifications';
 import { isTablet, screenPadding, centerContent, WIDE_MAX_WIDTH } from '../theme/responsive';
 import { useIsWebDesktop } from '../utils/useResponsive';
+import { HoverCard } from '../components/HoverCard';
+
+const SIDEBAR_W = 320;
 
 const { width: SCREEN_W } = Dimensions.get('window');
 const CARD_PADDING = 16;
@@ -53,6 +56,13 @@ export function HomeScreen({ navigation }: any) {
     const [showFeaturesIntro, setShowFeaturesIntro] = useState(false);
     const [announcementPopup, setAnnouncementPopup] = useState<any>(null);
     const [showNotifBanner, setShowNotifBanner] = useState(false);
+    // Re-render on the minute so the header date rolls over at midnight
+    // instead of staying stuck on whatever day the tab happened to load.
+    const [now, setNow] = useState(() => new Date());
+    useEffect(() => {
+        const id = setInterval(() => setNow(new Date()), 60 * 1000);
+        return () => clearInterval(id);
+    }, []);
     const scrollRef = useRef<ScrollView>(null);
     useScrollToTop(scrollRef);
     const { isStudent } = useAuth();
@@ -184,13 +194,104 @@ export function HomeScreen({ navigation }: any) {
         { key: 'lostfound', label: 'Lost & Found', icon: 'search' as const, accent: '#059669', bg: '#ECFDF5', route: 'LostFound' },
     ];
 
+    const renderMarketCard = (item: any, grid?: boolean) => (
+        <HoverCard
+            key={item.id}
+            style={[styles.marketCard, grid && styles.marketCardGrid, item.status === 'sold' && { opacity: 0.5 }]}
+            hoverStyle={styles.cardHover}
+            activeOpacity={0.85}
+            onPress={() => navigation.navigate('ListingDetail', { listing: item })}
+        >
+            {item.photos && item.photos[0] ? (
+                <Image source={{ uri: item.photos[0] }} style={styles.marketImage} />
+            ) : (
+                <View style={[styles.marketImage, styles.marketImagePlaceholder]}>
+                    <Ionicons name="cube-outline" size={28} color={theme.colors.textMuted} />
+                </View>
+            )}
+            <View style={styles.marketInfo}>
+                <Text style={styles.marketName} numberOfLines={1}>{item.name}</Text>
+                <Text
+                    style={[
+                        styles.marketPrice,
+                        formatPrice(item.price, item.currency) === 'Free' && { color: '#10B981' },
+                    ]}
+                    numberOfLines={1}
+                >
+                    {formatPrice(item.price, item.currency)}
+                </Text>
+                <Text style={styles.marketSeller} numberOfLines={1}>{item.sellerName}</Text>
+            </View>
+        </HoverCard>
+    );
+
+    const LOUNGE_CAT_META: any = {
+        general: { color: '#0EA5E9', bg: '#E0F2FE' },
+        question: { color: '#8B5CF6', bg: '#F3E8FF' },
+        event: { color: '#F59E0B', bg: '#FEF3C7' },
+        tip: { color: '#10B981', bg: '#D1FAE5' },
+    };
+
+    const renderLoungeCard = (post: any, grid?: boolean) => {
+        const cm = LOUNGE_CAT_META[post.category] || LOUNGE_CAT_META.general;
+        return (
+            <HoverCard
+                key={post.id}
+                style={[styles.loungeCard, grid && styles.loungeCardGrid]}
+                hoverStyle={styles.cardHover}
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('PostDetail', { post })}
+            >
+                {(post.photos?.[0] || post.imageUrl) ? (
+                    <Image source={{ uri: post.photos?.[0] || post.imageUrl }} style={styles.loungeImage} />
+                ) : (
+                    <View style={[styles.loungeImage, { backgroundColor: '#F1F5F9', justifyContent: 'center', alignItems: 'center' }]}>
+                        <Ionicons name="chatbubbles-outline" size={28} color="#94A3B8" />
+                    </View>
+                )}
+                <View style={[styles.loungeBadge, { backgroundColor: cm.bg }]}>
+                    <Text style={[styles.loungeBadgeText, { color: cm.color }]}>
+                        {(post.category || 'general').toUpperCase()}
+                    </Text>
+                </View>
+                <Text style={styles.loungeTitle} numberOfLines={2}>{post.title}</Text>
+                <View style={styles.loungeFooter}>
+                    <Text style={styles.loungeAuthor}>{post.authorName}</Text>
+                    <Text style={styles.loungeMeta}>♥ {post.likes || 0}</Text>
+                </View>
+            </HoverCard>
+        );
+    };
+
+    const quickAccessRail = (
+        <View style={styles.quickAccessSection}>
+            <Text style={styles.sectionLabel}>Quick Access</Text>
+            <View style={styles.quickAccessRow}>
+                {quickAccessItems.map(item => (
+                    <HoverCard
+                        key={item.key}
+                        style={[styles.quickAccessCard, isTablet && styles.quickAccessCardTablet]}
+                        hoverStyle={styles.cardHover}
+                        activeOpacity={0.85}
+                        onPress={() => navigation.navigate(item.route, item.params || {})}
+                    >
+                        <View style={[styles.quickAccessIconWrap, isTablet && styles.quickAccessIconWrapTablet, { backgroundColor: item.bg }]}>
+                            <Ionicons name={item.icon} size={isTablet ? 26 : 21} color={item.accent} />
+                        </View>
+                        <Text style={[styles.quickAccessLabel, isTablet && styles.quickAccessLabelTablet]}>{item.label}</Text>
+                    </HoverCard>
+                ))}
+            </View>
+        </View>
+    );
+
     return (
         <View style={styles.container}>
             {/* ─── Header ─── */}
             <View style={[styles.header, isWebDesktop && { paddingTop: 24 }, centerContent(WIDE_MAX_WIDTH)]}>
                 <View>
                     <Text style={styles.headerDate}>
-                        {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
+                        {now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
                     </Text>
                     <Text style={styles.headerTitle}>Dolphin</Text>
                 </View>
@@ -237,144 +338,117 @@ export function HomeScreen({ navigation }: any) {
                     </View>
                 )}
 
-                {/* ─── Hero Cards Row: Calendar + Lunch Menu ─── */}
-                <View style={styles.heroRow}>
-                    <CalendarWidget compact />
-                    <LunchMenuWidget compact />
-                </View>
+                {isWebDesktop ? (
+                    /* ─── Desktop dashboard: main feed column + widget rail ─── */
+                    <View style={styles.dashboardRow}>
+                        <View style={styles.dashboardMain}>
+                            {quickAccessRail}
 
-                {/* ─── AQI Banner ─── */}
-                <View style={styles.calendarBanner}>
-                    <WeatherAQIWidget banner />
-                </View>
-
-
-                {/* ─── Quick Access ─── */}
-                <View style={styles.quickAccessSection}>
-                    <Text style={styles.sectionLabel}>Quick Access</Text>
-                    <View style={styles.quickAccessRow}>
-                        {quickAccessItems.map(item => (
-                            <TouchableOpacity
-                                key={item.key}
-                                style={[styles.quickAccessCard, isTablet && styles.quickAccessCardTablet]}
-                                activeOpacity={0.85}
-                                onPress={() => navigation.navigate(item.route, item.params || {})}
-                            >
-                                <View style={[styles.quickAccessIconWrap, isTablet && styles.quickAccessIconWrapTablet, { backgroundColor: item.bg }]}>
-                                    <Ionicons name={item.icon} size={isTablet ? 26 : 21} color={item.accent} />
+                            <View style={styles.sectionHeader}>
+                                <Text style={styles.sectionTitle}>Marketplace</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Community', { initialTab: 'market' })}>
+                                    <Text style={styles.seeAll}>See all &gt;</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {marketItems.length > 0 ? (
+                                <View style={styles.cardGrid}>
+                                    {marketItems.slice(0, 8).map(item => renderMarketCard(item, true))}
                                 </View>
-                                <Text style={[styles.quickAccessLabel, isTablet && styles.quickAccessLabelTablet]}>{item.label}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </View>
+                            ) : (
+                                <View style={styles.emptySection}>
+                                    <Ionicons name="storefront-outline" size={32} color={theme.colors.textMuted} />
+                                    <Text style={styles.emptyText}>No items listed yet</Text>
+                                </View>
+                            )}
 
-                {/* ─── Market Items ─── */}
-                <View style={styles.sectionHeader}>
-                    <Text style={styles.sectionTitle}>Marketplace</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Community', { initialTab: 'market' })}>
-                        <Text style={styles.seeAll}>See all &gt;</Text>
-                    </TouchableOpacity>
-                </View>
-                {marketItems.length > 0 ? (
-                    <FlatList
-                        data={marketItems.slice(0, 6)}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingHorizontal: H_PAD, gap: 12 }}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                style={[styles.marketCard, item.status === 'sold' && { opacity: 0.5 }]}
-                                activeOpacity={0.85}
-                                onPress={() => navigation.navigate('ListingDetail', { listing: item })}
-                            >
-                                {item.photos && item.photos[0] ? (
-                                    <Image source={{ uri: item.photos[0] }} style={styles.marketImage} />
-                                ) : (
-                                    <View style={[styles.marketImage, styles.marketImagePlaceholder]}>
-                                        <Ionicons name="cube-outline" size={28} color={theme.colors.textMuted} />
+                            {!isStudent && (
+                                <>
+                                    <View style={[styles.sectionHeader, { marginTop: 24 }]}>
+                                        <Text style={styles.sectionTitle}>F&S Lounge</Text>
+                                        <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+                                            <Text style={styles.seeAll}>See all &gt;</Text>
+                                        </TouchableOpacity>
                                     </View>
-                                )}
-                                <View style={styles.marketInfo}>
-                                    <Text style={styles.marketName} numberOfLines={1}>{item.name}</Text>
-                                    <Text
-                                        style={[
-                                            styles.marketPrice,
-                                            formatPrice(item.price, item.currency) === 'Free' && { color: '#10B981' },
-                                        ]}
-                                        numberOfLines={1}
-                                    >
-                                        {formatPrice(item.price, item.currency)}
-                                    </Text>
-                                    <Text style={styles.marketSeller} numberOfLines={1}>{item.sellerName}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        )}
-                    />
-                ) : (
-                    <View style={styles.emptySection}>
-                        <Ionicons name="storefront-outline" size={32} color={theme.colors.textMuted} />
-                        <Text style={styles.emptyText}>No items listed yet</Text>
-                    </View>
-                )}
+                                    {loungePosts.length > 0 ? (
+                                        <View style={styles.cardGrid}>
+                                            {loungePosts.slice(0, 8).map(post => renderLoungeCard(post, true))}
+                                        </View>
+                                    ) : (
+                                        <View style={styles.emptySection}>
+                                            <Ionicons name="chatbubbles-outline" size={32} color={theme.colors.textMuted} />
+                                            <Text style={styles.emptyText}>No posts yet</Text>
+                                        </View>
+                                    )}
+                                </>
+                            )}
+                        </View>
 
-                {/* ─── Lounge Posts ─── */}
-                {!isStudent && (
+                        <View style={styles.dashboardSidebar}>
+                            <CalendarWidget compact />
+                            <LunchMenuWidget compact />
+                            <WeatherAQIWidget compact />
+                        </View>
+                    </View>
+                ) : (
+                    /* ─── Mobile / tablet: single stacked column ─── */
                     <>
-                        <View style={[styles.sectionHeader, { marginTop: 24 }]}>
-                            <Text style={styles.sectionTitle}>F&S Lounge</Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+                        <View style={styles.heroRow}>
+                            <CalendarWidget compact />
+                            <LunchMenuWidget compact />
+                        </View>
+
+                        <View style={styles.calendarBanner}>
+                            <WeatherAQIWidget banner />
+                        </View>
+
+                        {quickAccessRail}
+
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.sectionTitle}>Marketplace</Text>
+                            <TouchableOpacity onPress={() => navigation.navigate('Community', { initialTab: 'market' })}>
                                 <Text style={styles.seeAll}>See all &gt;</Text>
                             </TouchableOpacity>
                         </View>
-                        {loungePosts.length > 0 ? (
+                        {marketItems.length > 0 ? (
                             <FlatList
-                                data={loungePosts.slice(0, 6)}
+                                data={marketItems.slice(0, 6)}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                                 contentContainerStyle={{ paddingHorizontal: H_PAD, gap: 12 }}
                                 keyExtractor={item => item.id}
-                                renderItem={({ item: post }) => {
-                                    const catMeta: any = {
-                                        general: { color: '#0EA5E9', bg: '#E0F2FE' },
-                                        question: { color: '#8B5CF6', bg: '#F3E8FF' },
-                                        event: { color: '#F59E0B', bg: '#FEF3C7' },
-                                        tip: { color: '#10B981', bg: '#D1FAE5' },
-                                    };
-                                    const cm = catMeta[post.category] || catMeta.general;
-                                    return (
-                                        <TouchableOpacity
-                                            style={styles.loungeCard}
-                                            activeOpacity={0.8}
-                                            onPress={() => navigation.navigate('PostDetail', { post })}
-                                        >
-                                            {(post.photos?.[0] || post.imageUrl) ? (
-                                                <Image source={{ uri: post.photos?.[0] || post.imageUrl }} style={styles.loungeImage} />
-                                            ) : (
-                                                <View style={[styles.loungeImage, { backgroundColor: '#F1F5F9', justifyContent: 'center', alignItems: 'center' }]}>
-                                                    <Ionicons name="chatbubbles-outline" size={28} color="#94A3B8" />
-                                                </View>
-                                            )}
-                                            <View style={[styles.loungeBadge, { backgroundColor: cm.bg }]}>
-                                                <Text style={[styles.loungeBadgeText, { color: cm.color }]}>
-                                                    {(post.category || 'general').toUpperCase()}
-                                                </Text>
-                                            </View>
-                                            <Text style={styles.loungeTitle} numberOfLines={2}>{post.title}</Text>
-                                            <View style={styles.loungeFooter}>
-                                                <Text style={styles.loungeAuthor}>{post.authorName}</Text>
-                                                <Text style={styles.loungeMeta}>♥ {post.likes || 0}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    );
-                                }}
+                                renderItem={({ item }) => renderMarketCard(item)}
                             />
                         ) : (
                             <View style={styles.emptySection}>
-                                <Ionicons name="chatbubbles-outline" size={32} color={theme.colors.textMuted} />
-                                <Text style={styles.emptyText}>No posts yet</Text>
+                                <Ionicons name="storefront-outline" size={32} color={theme.colors.textMuted} />
+                                <Text style={styles.emptyText}>No items listed yet</Text>
                             </View>
+                        )}
+
+                        {!isStudent && (
+                            <>
+                                <View style={[styles.sectionHeader, { marginTop: 24 }]}>
+                                    <Text style={styles.sectionTitle}>F&S Lounge</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Community')}>
+                                        <Text style={styles.seeAll}>See all &gt;</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                {loungePosts.length > 0 ? (
+                                    <FlatList
+                                        data={loungePosts.slice(0, 6)}
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        contentContainerStyle={{ paddingHorizontal: H_PAD, gap: 12 }}
+                                        keyExtractor={item => item.id}
+                                        renderItem={({ item: post }) => renderLoungeCard(post)}
+                                    />
+                                ) : (
+                                    <View style={styles.emptySection}>
+                                        <Ionicons name="chatbubbles-outline" size={32} color={theme.colors.textMuted} />
+                                        <Text style={styles.emptyText}>No posts yet</Text>
+                                    </View>
+                                )}
+                            </>
                         )}
                     </>
                 )}
@@ -427,6 +501,30 @@ export function HomeScreen({ navigation }: any) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#F8FAFC' },
+
+    // ─── Desktop dashboard ───
+    dashboardRow: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        paddingHorizontal: 32,
+        paddingTop: 20,
+        gap: 28,
+    },
+    dashboardMain: { flex: 1, minWidth: 0 },
+    dashboardSidebar: { width: SIDEBAR_W, gap: 16 },
+    cardGrid: {
+        flexDirection: 'row', flexWrap: 'wrap', gap: 14,
+        paddingHorizontal: H_PAD,
+    },
+    marketCardGrid: { width: 190 },
+    loungeCardGrid: { width: 240 },
+    // Hover has no native equivalent — web-only lift + shadow, applied via HoverCard
+    cardHover: Platform.OS === 'web' ? {
+        transform: [{ translateY: -3 }],
+        shadowOpacity: 0.14, shadowRadius: 16, shadowOffset: { width: 0, height: 8 },
+        // @ts-ignore — cursor is a web-only CSS property, valid via RNW's style passthrough
+        cursor: 'pointer',
+    } : {},
 
     // Header
     header: {

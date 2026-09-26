@@ -6,7 +6,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme/theme';
 import { db } from '../config/firebase';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 
 // ── AQI source: Firestore `app_config/aqi` ──
 // A Cloud Function (aqiSync) polls the AirKorea 아암(Aam) station every 15 min
@@ -164,6 +164,33 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
         return () => { if (refreshTimer.current) clearInterval(refreshTimer.current); };
     }, [load]);
 
+    // Live push on top of the poll above — aqiSync (Cloud Function) writes here
+    // every 15 min; without this, a change only reaches the screen on the next
+    // scheded poll (up to CACHE_MS late). This applies it the instant it lands.
+    useEffect(() => {
+        return onSnapshot(doc(db, 'app_config', 'aqi'), snap => {
+            if (!snap.exists()) return;
+            const item = snap.data();
+            if (typeof item.pm25 !== 'number') return;
+            const pm25 = item.pm25 || 0;
+            const pm10 = item.pm10 || 0;
+            const g25 = gradePM25(pm25);
+            const g10 = gradePM10(pm10);
+            const overallGrade = g25.rank >= g10.rank ? g25 : g10;
+            const updated: AQIData = {
+                pm25, pm10,
+                o3: item.o3 || 0, no2: item.no2 || 0, so2: item.so2 || 0, co: item.co || 0,
+                overallGrade, activity: getActivity(overallGrade.label),
+                dataTime: item.dataTime || '', success: true,
+                temp: cachedData?.temp ?? null, weatherCode: cachedData?.weatherCode ?? null,
+            };
+            cachedData = updated;
+            lastFetch = Date.now();
+            setData(updated);
+            setLoading(false);
+        }, () => { /* permission-denied etc. — the poll-based load() above already surfaces this */ });
+    }, []);
+
     // ── Detail Modal ──
     const detailModal = (
         <Modal visible={showDetail} animationType="slide" presentationStyle="pageSheet">
@@ -176,11 +203,19 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
                 </View>
                 {data ? (
                     <ScrollView contentContainerStyle={dStyles.scroll}>
-                        {/* Overall Status */}
-                        <View style={[dStyles.statusCard, { borderColor: data.overallGrade.color + '40' }]}>
-                            <Text style={[dStyles.gradeLabel, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
-                            <Text style={dStyles.activityText}>{data.activity}</Text>
-                        </View>
+                        {/* Overall Status — only meaningful once the AQI fetch actually
+                            succeeded; showing "Good"/0s from a failed fetch's zero-value
+                            defaults would be actively misleading. */}
+                        {data.success ? (
+                            <View style={[dStyles.statusCard, { borderColor: data.overallGrade.color + '40' }]}>
+                                <Text style={[dStyles.gradeLabel, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
+                                <Text style={dStyles.activityText}>{data.activity}</Text>
+                            </View>
+                        ) : (
+                            <View style={dStyles.statusCard}>
+                                <Text style={dStyles.activityText}>Air quality data unavailable right now</Text>
+                            </View>
+                        )}
 
                         {/* Weather */}
                         {data.temp !== null && (
@@ -195,40 +230,44 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
                             </View>
                         )}
 
-                        {/* PM Cards */}
-                        <View style={dStyles.pmRow}>
-                            <View style={[dStyles.pmCard, { borderColor: gradePM25(data.pm25).color + '40' }]}>
-                                <Text style={dStyles.pmLabel}>PM2.5</Text>
-                                <Text style={[dStyles.pmValue, { color: gradePM25(data.pm25).color }]}>{data.pm25}</Text>
-                                <Text style={dStyles.pmUnit}>µg/m³</Text>
-                                <Text style={[dStyles.pmGrade, { color: gradePM25(data.pm25).color }]}>{gradePM25(data.pm25).label}</Text>
-                            </View>
-                            <View style={[dStyles.pmCard, { borderColor: gradePM10(data.pm10).color + '40' }]}>
-                                <Text style={dStyles.pmLabel}>PM10</Text>
-                                <Text style={[dStyles.pmValue, { color: gradePM10(data.pm10).color }]}>{data.pm10}</Text>
-                                <Text style={dStyles.pmUnit}>µg/m³</Text>
-                                <Text style={[dStyles.pmGrade, { color: gradePM10(data.pm10).color }]}>{gradePM10(data.pm10).label}</Text>
-                            </View>
-                        </View>
-
-                        {/* Secondary pollutants */}
-                        <View style={dStyles.secRow}>
-                            {[
-                                { label: 'O₃', value: data.o3, unit: 'ppm' },
-                                { label: 'NO₂', value: data.no2, unit: 'ppm' },
-                                { label: 'SO₂', value: data.so2, unit: 'ppm' },
-                                { label: 'CO', value: data.co, unit: 'ppm' },
-                            ].map(p => (
-                                <View key={p.label} style={dStyles.secCard}>
-                                    <Text style={dStyles.secLabel}>{p.label}</Text>
-                                    <Text style={dStyles.secValue}>{p.value}</Text>
-                                    <Text style={dStyles.secUnit}>{p.unit}</Text>
+                        {data.success && (
+                            <>
+                                {/* PM Cards */}
+                                <View style={dStyles.pmRow}>
+                                    <View style={[dStyles.pmCard, { borderColor: gradePM25(data.pm25).color + '40' }]}>
+                                        <Text style={dStyles.pmLabel}>PM2.5</Text>
+                                        <Text style={[dStyles.pmValue, { color: gradePM25(data.pm25).color }]}>{data.pm25}</Text>
+                                        <Text style={dStyles.pmUnit}>µg/m³</Text>
+                                        <Text style={[dStyles.pmGrade, { color: gradePM25(data.pm25).color }]}>{gradePM25(data.pm25).label}</Text>
+                                    </View>
+                                    <View style={[dStyles.pmCard, { borderColor: gradePM10(data.pm10).color + '40' }]}>
+                                        <Text style={dStyles.pmLabel}>PM10</Text>
+                                        <Text style={[dStyles.pmValue, { color: gradePM10(data.pm10).color }]}>{data.pm10}</Text>
+                                        <Text style={dStyles.pmUnit}>µg/m³</Text>
+                                        <Text style={[dStyles.pmGrade, { color: gradePM10(data.pm10).color }]}>{gradePM10(data.pm10).label}</Text>
+                                    </View>
                                 </View>
-                            ))}
-                        </View>
 
-                        {/* Source */}
-                        <Text style={dStyles.source}>AirKorea · Aam Station{data.dataTime ? ` · ${data.dataTime.split(' ')[1] || data.dataTime}` : ''}</Text>
+                                {/* Secondary pollutants */}
+                                <View style={dStyles.secRow}>
+                                    {[
+                                        { label: 'O₃', value: data.o3, unit: 'ppm' },
+                                        { label: 'NO₂', value: data.no2, unit: 'ppm' },
+                                        { label: 'SO₂', value: data.so2, unit: 'ppm' },
+                                        { label: 'CO', value: data.co, unit: 'ppm' },
+                                    ].map(p => (
+                                        <View key={p.label} style={dStyles.secCard}>
+                                            <Text style={dStyles.secLabel}>{p.label}</Text>
+                                            <Text style={dStyles.secValue}>{p.value}</Text>
+                                            <Text style={dStyles.secUnit}>{p.unit}</Text>
+                                        </View>
+                                    ))}
+                                </View>
+
+                                {/* Source */}
+                                <Text style={dStyles.source}>AirKorea · Aam Station{data.dataTime ? ` · ${data.dataTime.split(' ')[1] || data.dataTime}` : ''}</Text>
+                            </>
+                        )}
                     </ScrollView>
                 ) : (
                     <ActivityIndicator style={{ marginTop: 40 }} color="#64748B" />
@@ -248,7 +287,7 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
                 >
                     {loading ? (
                         <ActivityIndicator size="small" color="#A0AEC0" />
-                    ) : data?.success ? (
+                    ) : data && (data.success || data.temp !== null) ? (
                         <View>
                             <View style={bStyles.topRow}>
                                 <View style={bStyles.leftGroup}>
@@ -264,17 +303,23 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
                                             <Text style={bStyles.tempText}>{data.temp}°</Text>
                                         )}
                                     </View>
-                                    <View style={[bStyles.gradeBadge, { backgroundColor: data.overallGrade.color + '18' }]}>
-                                        <Text style={[bStyles.gradeText, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
+                                    {data.success && (
+                                        <View style={[bStyles.gradeBadge, { backgroundColor: data.overallGrade.color + '18' }]}>
+                                            <Text style={[bStyles.gradeText, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
+                                        </View>
+                                    )}
+                                </View>
+                                {data.success && (
+                                    <View style={bStyles.pmGroup}>
+                                        <Text style={bStyles.pmLabel}>PM2.5 <Text style={bStyles.pmValue}>{data.pm25}</Text></Text>
+                                        <View style={bStyles.pmDivider} />
+                                        <Text style={bStyles.pmLabel}>PM10 <Text style={bStyles.pmValue}>{data.pm10}</Text></Text>
                                     </View>
-                                </View>
-                                <View style={bStyles.pmGroup}>
-                                    <Text style={bStyles.pmLabel}>PM2.5 <Text style={bStyles.pmValue}>{data.pm25}</Text></Text>
-                                    <View style={bStyles.pmDivider} />
-                                    <Text style={bStyles.pmLabel}>PM10 <Text style={bStyles.pmValue}>{data.pm10}</Text></Text>
-                                </View>
+                                )}
                             </View>
-                            <Text style={bStyles.activityText}>{data.activity}</Text>
+                            <Text style={bStyles.activityText}>
+                                {data.success ? data.activity : 'Air quality data unavailable right now'}
+                            </Text>
                         </View>
                     ) : (
                         <Text style={bStyles.hintText}>No data available</Text>
@@ -303,17 +348,21 @@ export function WeatherAQIWidget({ compact, banner }: Props) {
                     <View style={cStyles.contentArea}>
                         {loading ? (
                             <ActivityIndicator size="small" color="#A0AEC0" />
-                        ) : data?.success ? (
+                        ) : data && (data.success || data.temp !== null) ? (
                             <>
                                 <View style={cStyles.mainRow}>
                                     {data.temp !== null && (
                                         <Text style={cStyles.tempText}>{data.temp}°</Text>
                                     )}
-                                    <View style={[cStyles.gradeBadge, { backgroundColor: data.overallGrade.color + '18' }]}>
-                                        <Text style={[cStyles.gradeText, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
-                                    </View>
+                                    {data.success && (
+                                        <View style={[cStyles.gradeBadge, { backgroundColor: data.overallGrade.color + '18' }]}>
+                                            <Text style={[cStyles.gradeText, { color: data.overallGrade.color }]}>{data.overallGrade.label}</Text>
+                                        </View>
+                                    )}
                                 </View>
-                                <Text style={cStyles.activityText} numberOfLines={2}>{data.activity}</Text>
+                                <Text style={cStyles.activityText} numberOfLines={2}>
+                                    {data.success ? data.activity : 'Air quality unavailable'}
+                                </Text>
                             </>
                         ) : (
                             <Text style={cStyles.hintText}>No data</Text>

@@ -12,9 +12,11 @@ import {
 } from 'firebase/firestore';
 import { sendPushNotification } from '../utils/notifications';
 import Constants from 'expo-constants';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 // ─── Admin Panel ───
 export function AdminScreen({ navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('reports');
@@ -302,7 +304,7 @@ export function AdminScreen({ navigation }: any) {
     return (
         <View style={styles.container}>
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={{ padding: 4 }}>
                     <Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} />
                 </TouchableOpacity>

@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme, r } from '../theme/theme';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 export function SellerDetailScreen({ route, navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const { seller } = route.params;
 
     const renderItem = ({ item }: any) => (
@@ -31,7 +33,7 @@ export function SellerDetailScreen({ route, navigation }: any) {
     return (
         <View style={styles.container}>
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
                     <Ionicons name="chevron-back" size={24} color={theme.colors.textPrimary} />
                 </TouchableOpacity>

@@ -9,6 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import * as MailComposer from 'expo-mail-composer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 const EMAIL_KEY = '@post_email_recipients';
 
@@ -23,6 +24,7 @@ const CATEGORIES = [
 ];
 
 export function CreatePostScreen({ route, navigation }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const editPost = route?.params?.editPost || null;
     const isEditing = !!editPost;
 
@@ -189,7 +191,7 @@ export function CreatePostScreen({ route, navigation }: any) {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={90}>
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <TouchableOpacity onPress={() => navigation.goBack()} style={styles.closeBtn}>
                     <Ionicons name="close" size={26} color={theme.colors.textPrimary} />
                 </TouchableOpacity>

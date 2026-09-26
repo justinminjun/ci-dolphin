@@ -18,11 +18,12 @@ import { getBlockedUsers } from '../utils/moderation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PositionPicker } from '../components/PositionPicker';
 import { isTablet, screenPadding, gridColumns, centerContent, CONTENT_MAX_WIDTH, WIDE_MAX_WIDTH } from '../theme/responsive';
+import { useIsWebDesktop } from '../utils/useResponsive';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
-// Dimensions.get('window') is clamped to 480px on web (webDimensionsPolyfill.ts)
-// for mobile-scale card math; the tablet/desktop grid needs the real width so
-// cards don't shrink to fit a phantom 480px container on a wide screen.
+// Dimensions.get('window') returns the real window width on web (see
+// webDimensionsPolyfill.ts) — the tablet/desktop grid needs that real width
+// so cards don't shrink to fit a phantom narrow container on a wide screen.
 const REAL_WIDTH = Platform.OS === 'web' && typeof window !== 'undefined' ? window.innerWidth : SCREEN_WIDTH;
 const CARD_GAP = 10;
 const GRID_COLS = gridColumns(2);
@@ -112,6 +113,7 @@ function PhotoGrid({ items, size }: { items: any[]; size: number }) {
 }
 
 export function MarketScreen({ navigation, embedded }: any) {
+    const isWebDesktop = useIsWebDesktop();
     const [listings, setListings] = useState<any[]>([]);
     const [refreshing, setRefreshing] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -273,17 +275,26 @@ export function MarketScreen({ navigation, embedded }: any) {
         });
     };
 
+    // Hides the modal immediately (no fade-out) rather than going through
+    // closePostModal()'s animation — on web the Animated.timing completion
+    // callback isn't reliable enough to depend on right before navigating
+    // away, which left the sheet stuck on top of the next screen.
+    const dismissPostModalForNav = () => {
+        setShowPostModal(false);
+        setPostStep('choose');
+    };
+
     const handlePostChoice = (choice: string) => {
         if (choice === 'sell') {
             setPostStep('sell-mode');
         } else if (choice === 'buy') {
-            closePostModal();
+            dismissPostModalForNav();
             navigation.navigate('CreateListing', { mode: 'single', listingType: 'buying' });
         } else if (choice === 'single') {
-            closePostModal();
+            dismissPostModalForNav();
             navigation.navigate('CreateListing', { mode: 'single', listingType: 'selling' });
         } else if (choice === 'multi') {
-            closePostModal();
+            dismissPostModalForNav();
             navigation.navigate('CreateListing', { mode: 'multi', listingType: 'selling' });
         }
     };
@@ -431,7 +442,7 @@ export function MarketScreen({ navigation, embedded }: any) {
         <View style={[styles.container, embedded && { paddingTop: 0 }]}>
             {/* Header — only show when not embedded */}
             {!embedded && (
-            <View style={styles.header}>
+            <View style={[styles.header, isWebDesktop && { paddingTop: 20 }]}>
                 <View style={styles.headerInner}>
                     <Text style={styles.headerTitle}>Dolphin Market</Text>
                     <View style={styles.headerRight}>
