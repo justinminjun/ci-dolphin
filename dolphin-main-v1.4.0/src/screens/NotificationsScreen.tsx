@@ -23,6 +23,7 @@ const NOTIF_META: Record<string, { icon: string; color: string; label: string }>
     queue: { icon: 'cart', color: '#F97316', label: 'Queue' },
     lounge: { icon: 'chatbubbles', color: '#6366F1', label: 'F&S Lounge' },
     market: { icon: 'storefront', color: '#F97316', label: 'Market' },
+    lf_match: { icon: 'search', color: '#047857', label: 'Lost & Found' },
     announcement: { icon: 'megaphone', color: '#F59E0B', label: 'Announcement' },
 };
 
@@ -258,6 +259,17 @@ export function NotificationsScreen({ navigation }: any) {
                     const snap = await getDoc(doc(db, 'lounge_posts', item.postId));
                     if (snap.exists()) {
                         navigation.navigate('PostDetail', { post: { id: snap.id, ...snap.data() } });
+                    } else {
+                        Alert.alert('Not Found', 'This post may have been deleted.');
+                    }
+                } catch { Alert.alert('Error', 'Could not load post.'); }
+            }
+        } else if (item.type === 'lf_match') {
+            if (item.postId) {
+                try {
+                    const snap = await getDoc(doc(db, 'posts', item.postId));
+                    if (snap.exists()) {
+                        navigation.navigate('LFDetail', { post: { id: snap.id, ...snap.data() } });
                     } else {
                         Alert.alert('Not Found', 'This post may have been deleted.');
                     }

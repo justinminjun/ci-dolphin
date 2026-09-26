@@ -1,9 +1,10 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { LOSTFOUND_CATEGORIES } from './constants';
 
 const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY || '';
 const genAI = new GoogleGenerativeAI(apiKey);
 
-export const analyzeLostItemImage = async (base64Image: string) => {
+export const analyzeLostItemImage = async (base64Image: string, mimeType = 'image/jpeg') => {
     if (!apiKey) {
         throw new Error('Gemini API Key is missing. Please add it to your environment variables.');
     }
@@ -17,7 +18,7 @@ Return a JSON object with strictly these keys:
 - "description": a brief but detailed visual description (2-3 sentences)
 - "color": primary color of the item
 - "brand": any recognizable brand, or empty string
-- "category": one of: Electronics, Clothing, Accessories, Stationery, Bag, Sports, Books, Other
+- "category": one of: ${LOSTFOUND_CATEGORIES.join(', ')}
 - "tags": an array of exactly 4 hashtag-style feature keywords (without the # symbol). These should describe key visual features, material, or distinguishing marks. Examples: ["silver", "Apple logo", "13-inch", "sticker on lid"]
 
 Only return the raw JSON object, no markdown formatting, no code blocks.`;
@@ -26,7 +27,7 @@ Only return the raw JSON object, no markdown formatting, no code blocks.`;
         {
             inlineData: {
                 data: base64Image,
-                mimeType: 'image/jpeg'
+                mimeType
             }
         }
     ];
