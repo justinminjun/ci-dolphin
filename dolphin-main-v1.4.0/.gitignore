@@ -56,3 +56,6 @@ firestore-debug.log
 
 # scratch
 simulator_screenshot.png
+
+# local editor / agent config
+.claude/

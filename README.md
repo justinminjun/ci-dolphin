@@ -6,8 +6,8 @@ student/faculty recommendations. It ships to the App Store as **CI Dolphin** and
 the same codebase, as a website (`chadwickinternational-dolphin.web.app`).
 
 **Active codebase:** [`dolphin-main-v1.4.0/`](./dolphin-main-v1.4.0). Everything below
-refers to that folder. `dolphin-main/` is the pre-v1.4.0 snapshot, kept only for
-reference — don't build on it.
+refers to that folder. (An older pre-v1.4.0 snapshot, `dolphin-main/`, was removed;
+it remains available in the git history.)
 
 **Lost & Found handoff:** [`lost-and-found-handoff/`](./lost-and-found-handoff) contains
 only the updated Lost & Found files, with install steps, data-model changes and open
